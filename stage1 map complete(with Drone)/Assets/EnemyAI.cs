@@ -64,6 +64,30 @@ public class EnemyAI : MonoBehaviour
                 drone_control = 1;
                 Destroy(gameObject, 10.0f);
                 break;
+            case "Enemy" :
+            if(camera.control == 1 && drone_control == 1)
+            {
+                other.gameObject.SetActive(false);
+                Destroy(gameObject);
+                Destroy(other.gameObject);
+            }
+            break;
+            case "Turret" :
+            if(camera.control == 1 && drone_control == 1)
+            {
+                other.gameObject.SetActive(false);
+                Destroy(gameObject);
+                Destroy(other.gameObject);
+            }
+            break;
+            case "Trap" :
+            if(camera.control == 1 && drone_control == 1)
+            {
+                other.gameObject.SetActive(false);
+                Destroy(gameObject);
+                Destroy(other.gameObject);
+            }
+            break;
         }
         
     }

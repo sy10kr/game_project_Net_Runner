@@ -7,22 +7,22 @@ public class mine : MonoBehaviour
     //지뢰 이펙트
     [SerializeField] GameObject mine_effect = null;
         
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         
-        if (other.CompareTag("Player"))
+        if (other.gameObject.tag == "Player" )
         {
             Destroy(gameObject);
             GameObject Instance_effect = Instantiate(mine_effect, transform.position, Quaternion.identity);
             Destroy(Instance_effect, 0.5f);
         }
-        if (other.CompareTag("Zombie"))
+        if (other.gameObject.tag == "Zombie" )
         {
             Destroy(gameObject);
             GameObject Instance_effect = Instantiate(mine_effect, transform.position, Quaternion.identity);
             Destroy(Instance_effect, 0.5f);
         }
-        if (other.CompareTag("Enemy"))
+        if (other.gameObject.tag == "Enemy" )
         {
             Destroy(gameObject);
             GameObject Instance_effect = Instantiate(mine_effect, transform.position, Quaternion.identity);

@@ -21,6 +21,7 @@ TagManager:
   - Fire
   - Bullet_riding
   - Drone
+  - Heal
   layers:
   - Default
   - TransparentFX

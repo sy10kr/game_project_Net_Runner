@@ -361,7 +361,15 @@ namespace UnityChan
                 Debug.Log(Pb.BarValue);
 
             }
-            if(collision.gameObject.tag == "Die")
+            if(collision.gameObject.tag == "Enemy")
+            {
+				Pb.ProgressControl(30);
+            }
+			if(collision.gameObject.tag == "Heal")
+            {
+				Pb.ProgressControl(-20);
+            }
+			if(collision.gameObject.tag == "Die")
             {
                 Debug.Log("Die");
                 anim.Play("Die");
