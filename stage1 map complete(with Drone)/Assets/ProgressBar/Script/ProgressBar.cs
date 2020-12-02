@@ -28,6 +28,13 @@ public class ProgressBar : MonoBehaviour
     public bool repeat = false;
     public float RepeatRate = 1f;
 
+
+    //장비 받아오는 용
+    private GameObject EquipmentObject;
+    private Equipment_Control EqScript;
+    private int battery_level;
+
+
     private Image bar, barBackground;
     private float nextPlay;
     private AudioSource audiosource;
@@ -46,10 +53,16 @@ public class ProgressBar : MonoBehaviour
         }
     }
 
+    public float CalcDamage(float value, float level)
+    {
+
+        return value / (level * 0.5f + 0.5f);
+    }
+
     public void ProgressControl(float val)
     {
         float now = barValue;
-        BarValue = barValue + val;
+        BarValue = barValue + CalcDamage(val,battery_level);
     }
 
     private void Awake()
@@ -63,6 +76,10 @@ public class ProgressBar : MonoBehaviour
 
     private void Start()
     {
+        EquipmentObject = GameObject.Find("EquipmentObject");
+        EqScript = EquipmentObject.GetComponent<Equipment_Control>();
+        battery_level = EqScript.battery_level;
+
         txtTitle.text = Title;
         txtTitle.color = TitleColor;
         txtTitle.font = TitleFont;
@@ -122,7 +139,7 @@ public class ProgressBar : MonoBehaviour
                 audiosource.PlayOneShot(sound);
             }
 
-            ProgressControl(Time.deltaTime);
+            ProgressControl((Time.deltaTime)/3);
 
         }
     }

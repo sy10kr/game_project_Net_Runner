@@ -53,7 +53,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         switch(other.gameObject.tag)
         {
@@ -72,6 +72,9 @@ public class EnemyAI : MonoBehaviour
                 Destroy(other.gameObject);
             }
             break;
+            case "Player" :
+                Destroy(gameObject);
+            break;
             case "Turret" :
             if(camera.control == 1 && drone_control == 1)
             {
@@ -87,6 +90,10 @@ public class EnemyAI : MonoBehaviour
                 Destroy(gameObject);
                 Destroy(other.gameObject);
             }
+            break;
+            case "Zombie" :
+                Destroy(gameObject);
+                Destroy(other.gameObject);
             break;
         }
         

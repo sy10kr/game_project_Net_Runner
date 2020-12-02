@@ -47,9 +47,11 @@ namespace UnityChan
 
         public GameObject ProgressObject;
         private ProgressBar Pb;
+        public GameObject SkillObject;
+        private SkillCheck SkillScript;
 
-		//Init_collider 초기화용 오브젝트 
-		public GameObject Init_ColliderObject = null;
+        //Init_collider 초기화용 오브젝트 
+        public GameObject Init_ColliderObject = null;
 
         // アニメーター各ステートへの参照
         static int idleState = Animator.StringToHash ("Base Layer.Idle");
@@ -97,8 +99,9 @@ namespace UnityChan
 			col = GetComponent<CapsuleCollider> ();
 			rb = GetComponent<Rigidbody> ();
             Pb = ProgressObject.GetComponent<ProgressBar>();
-			//メインカメラを取得する
-			cameraObject = GameObject.FindWithTag ("MainCamera");
+            SkillScript = SkillObject.GetComponent<SkillCheck>();
+            //メインカメラを取得する
+            cameraObject = GameObject.FindWithTag ("MainCamera");
             
 
 			// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
@@ -153,7 +156,8 @@ namespace UnityChan
 					//해킹총알
 					if(skill_num == 1)
 					{
-						GameObject Instance_bullet = Instantiate(Bullet_hacking, Fire_pos.position, Fire_pos.rotation);
+                        Pb.ProgressControl(10);
+                        GameObject Instance_bullet = Instantiate(Bullet_hacking, Fire_pos.position, Fire_pos.rotation);
 						GameObject Instance_effect = Instantiate(Fire_effect, Fire_pos.position, Fire_pos.rotation);
 
 						Destroy(Instance_effect, 0.05f);
@@ -161,14 +165,16 @@ namespace UnityChan
 					//포탈총알
 					if(skill_num == 3)
 					{
-						GameObject Instance_bullet = Instantiate(Bullet_portal, Fire_pos.position, Fire_pos.rotation);
+                        Pb.ProgressControl(15);
+                        GameObject Instance_bullet = Instantiate(Bullet_portal, Fire_pos.position, Fire_pos.rotation);
 						GameObject Instance_effect = Instantiate(Fire_effect, Fire_pos.position, Fire_pos.rotation);
 
 						Destroy(Instance_effect, 0.05f);
 					}
 					if(skill_num == 4)
 					{
-						GameObject Instance_bullet = Instantiate(Bullet_stop, Fire_pos.position, Fire_pos.rotation);
+                        Pb.ProgressControl(15);
+                        GameObject Instance_bullet = Instantiate(Bullet_stop, Fire_pos.position, Fire_pos.rotation);
 						GameObject Instance_effect = Instantiate(Fire_effect, Fire_pos.position, Fire_pos.rotation);
 
 						Destroy(Instance_effect, 0.05f);
@@ -184,7 +190,8 @@ namespace UnityChan
 				//2번 스킬 - 좀비소환
 				if (Input.GetKeyDown(KeyCode.Alpha2))
 				{
-					skill_num = 2;
+                    Pb.ProgressControl(5);
+                    skill_num = 2;
 					Vector3 edit_pos;
 					edit_pos = Zombie_pos.position;
 					edit_pos.z += 1;
@@ -196,7 +203,7 @@ namespace UnityChan
 					Destroy(Instance_effect, 5f);
 				}
 				//3번 스킬 - 포탈소환
-				if (Input.GetKeyDown(KeyCode.Alpha3))
+				if (Input.GetKeyDown(KeyCode.Alpha3) && SkillScript.skill_state_list[2] == 1 )
 				{
 					skill_num = 3;
 					Vector3 edit_pos; 
@@ -214,7 +221,7 @@ namespace UnityChan
 					}
 				}
 				//4번 스킬 - 정지
-				if (Input.GetKeyDown(KeyCode.Alpha4))
+				if (Input.GetKeyDown(KeyCode.Alpha4) && SkillScript.skill_state_list[2] == 1)
 				{
 					skill_num = 4;
 				}
@@ -251,7 +258,7 @@ namespace UnityChan
 				// JUMP中の処理
 				// 現在のベースレイヤーがjumpStateの時
 				else if (currentBaseState.nameHash == jumpState) {
-					cameraObject.SendMessage ("setCameraPositionJumpView");	// ジャンプ中のカメラに変更
+					//cameraObject.SendMessage ("setCameraPositionJumpView");	// ジャンプ中のカメラに変更
 					// ステートがトランジション中でない場合
 					if (!anim.IsInTransition (0)) {
 					
@@ -363,9 +370,13 @@ namespace UnityChan
             }
             if(collision.gameObject.tag == "Enemy")
             {
-				Pb.ProgressControl(30);
+				Pb.ProgressControl(20);
             }
-			if(collision.gameObject.tag == "Heal")
+            if (collision.gameObject.tag == "Ice")
+            {
+                SceneManager.LoadScene("game_clear");
+            }
+            if (collision.gameObject.tag == "Heal")
             {
 				Pb.ProgressControl(-20);
             }

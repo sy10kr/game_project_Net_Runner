@@ -9,6 +9,11 @@ public class SkillButtonScript : MonoBehaviour
     private GameObject EquipmentObject;
     private Equipment_Control EqScript;
 
+    public GameObject SkillObject;
+    private SkillCheck SkillScript;
+
+    public int[] skill_state_list = new int[4] { 1, 1, 0, 0 };
+
     public Button nowButton;
 
     public Button Battery_Button;
@@ -28,6 +33,7 @@ public class SkillButtonScript : MonoBehaviour
         EqScript = EquipmentObject.GetComponent<Equipment_Control>();
         nowButton.onClick.AddListener(fClick);
         Battery_Button.onClick.AddListener(batteryClick);
+        skill_state_list = EqScript.skill_state;
 
         if (num == 9) // stage 선택의 경우
         {

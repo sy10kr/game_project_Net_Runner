@@ -205,6 +205,9 @@ MonoBehaviour:
   portalhit_effect: {fileID: 100000, guid: 5c7aeddefe9f8499091b160181d837ed, type: 3}
   stop_effect: {fileID: 5405929237552949375, guid: c5c444d739de5ac40b875843289be050,
     type: 3}
+  Bullet_speed: 1
+  zeroTime: 0
+  beatTime: 5
 --- !u!135 &8188619958395001413
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -213,7 +216,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5393606738080765802}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2

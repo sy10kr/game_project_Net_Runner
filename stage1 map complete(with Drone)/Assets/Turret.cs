@@ -21,6 +21,7 @@ public class Turret : MonoBehaviour
     [SerializeField] Transform m_firepos = null;
     [SerializeField] GameObject fire_effect = null;
     [SerializeField] GameObject Bullet = null;
+    [SerializeField] GameObject Destroy_effect = null;
 
     void SearchEnemy()
     {
@@ -56,6 +57,12 @@ public class Turret : MonoBehaviour
     }
 
     // Update is called once per frame
+    void OnDestroy()
+    {
+        GameObject Instance_effect = Instantiate(Destroy_effect, transform.position, Quaternion.identity);
+        Destroy(Instance_effect, 1.0f);
+    }
+
     void Update()
     {
         if(m_tfTarget == null)
@@ -92,13 +99,18 @@ public class Turret : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Bullet_stop"))
+        if(other.gameObject.tag == "Bullet_stop")
         {
             //해당 오브젝트중 스크립트 이름인 Turret을 가져와서 disable시킴
             gameObject.GetComponent<Turret>().enabled = false;
             Invoke("Init_trap", 5f);
+        }
+        if(other.gameObject.tag == "Zombie")
+        {
+            Destroy(gameObject);
+            Destroy(other.gameObject);
         }
     }
 

@@ -6,6 +6,7 @@ public class heal : MonoBehaviour
 {
     // Update is called once per frame
     [SerializeField] GameObject heal_effect = null;
+
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Player" )

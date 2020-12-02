@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector3.forward * Bullet_speed);
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnCollisionEnter(Collision other)
     {
         switch(other.gameObject.tag)
         {

@@ -16,7 +16,7 @@ public class Drone : MonoBehaviour
     int m_count = 0;
     int drone_control = 0;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         switch(other.gameObject.tag)
         {

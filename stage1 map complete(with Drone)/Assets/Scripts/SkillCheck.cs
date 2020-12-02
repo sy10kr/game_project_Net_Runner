@@ -11,7 +11,7 @@ public class SkillCheck : MonoBehaviour
     private GameObject skill_icon_2;
     private GameObject skill_icon_3;
     private GameObject skill_icon_4;
-
+    public int[] skill_state_list = new int[4] { 1, 1, 0, 0 };
 
 
     // Start is called before the first frame update
@@ -20,6 +20,7 @@ public class SkillCheck : MonoBehaviour
         EquipmentObject = GameObject.Find("EquipmentObject");
         EqScript = EquipmentObject.GetComponent<Equipment_Control>();
         Debug.Log(EqScript.skill_state[0]);
+        skill_state_list = EqScript.skill_state;
 
         skill_icon_1 = GameObject.Find("Skill_Icon_1");
         skill_icon_2 = GameObject.Find("Skill_Icon_2");

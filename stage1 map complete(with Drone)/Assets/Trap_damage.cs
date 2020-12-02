@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Trap_damage : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Bullet_stop"))
+        if(gameObject.tag == "Bullet_stop")
         {
             //해당 오브젝트중 스크립트 이름인 Turret을 가져와서 disable시킴
 
@@ -15,6 +15,11 @@ public class Trap_damage : MonoBehaviour
 
         
             Invoke("Init_trap", 5f);
+        }
+        if(other.gameObject.tag == "Zombie")
+        {
+            Destroy(gameObject);
+            Destroy(other.gameObject);
         }
     }
 
