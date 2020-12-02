@@ -12,6 +12,7 @@ public class Equipment_Control : MonoBehaviour
     public int money = 100;
     public int zombie_level = 1;
     public int battery_level = 1;
+    public int stage_clear = 0;
 
     private void Awake()
     {

@@ -10,7 +10,7 @@ public class EquipCheck : MonoBehaviour
     private Equipment_Control EqScript;
 
     public Text MoneyState;
-    public Text ZombieState;
+
     public Text BatteryState;
 
 
@@ -28,15 +28,20 @@ public class EquipCheck : MonoBehaviour
         
         int money = EqScript.money;
         MoneyState.text = money.ToString();
-        ZombieState.text = EqScript.zombie_level.ToString();
-        BatteryState.text = EqScript.battery_level.ToString();
+        int battery_level = EqScript.battery_level;
+        BatteryState.text = battery_level.ToString();
         //resourceText.text = "Enter Your Text Here";
+
+        Debug.Log(EqScript.battery_level);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        int money = EqScript.money;
+        MoneyState.text = money.ToString();
+        int battery_level = EqScript.battery_level;
+        BatteryState.text = battery_level.ToString();
     }
 }
