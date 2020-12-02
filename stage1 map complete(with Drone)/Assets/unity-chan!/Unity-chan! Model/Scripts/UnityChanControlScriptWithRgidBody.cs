@@ -13,8 +13,15 @@ namespace UnityChan
 	[RequireComponent(typeof(Animator))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	[RequireComponent(typeof(Rigidbody))]
+
 	public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 	{
+		//사운드
+		AudioSource audioSource;
+		public AudioClip audioAtk;
+		public AudioClip audioJump;
+		public AudioClip audioDamage;
+		public AudioClip audioWin;
 
 		public float animSpeed = 1.5f;				// アニメーション再生速度設定
 		public float lookSmoother = 3.0f;			// a smoothing setting for camera motion
@@ -102,11 +109,31 @@ namespace UnityChan
             SkillScript = SkillObject.GetComponent<SkillCheck>();
             //メインカメラを取得する
             cameraObject = GameObject.FindWithTag ("MainCamera");
+			audioSource = GetComponent<AudioSource>();
             
 
 			// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 			orgColHight = col.height;
 			orgVectColCenter = col.center;
+		}
+		void PlaySound(string action)
+		{
+			 switch (action) 
+			 {
+				case "JUMP":
+					audioSource.clip = audioJump;
+					break;
+				case "ATTACK":
+					audioSource.clip = audioAtk;
+					break;
+				case "DAMAGE":
+					audioSource.clip = audioDamage;
+					break;
+				case "WIN":
+					audioSource.clip = audioWin;
+					break;
+        	}
+        	audioSource.Play();
 		}
 	
 	
@@ -147,6 +174,7 @@ namespace UnityChan
 						if (!anim.IsInTransition (0)) {
 							rb.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
 							anim.SetBool ("Jump", true);		// Animatorにジャンプに切り替えるフラグを送る
+							PlaySound("JUMP");
 						}
 					}
 				}
@@ -156,23 +184,24 @@ namespace UnityChan
 					//해킹총알
 					if(skill_num == 1)
 					{
+						PlaySound("ATTACK");
                         Pb.ProgressControl(10);
                         GameObject Instance_bullet = Instantiate(Bullet_hacking, Fire_pos.position, Fire_pos.rotation);
 						GameObject Instance_effect = Instantiate(Fire_effect, Fire_pos.position, Fire_pos.rotation);
-
 						Destroy(Instance_effect, 0.05f);
 					}
 					//포탈총알
 					if(skill_num == 3)
 					{
+						PlaySound("ATTACK");
                         Pb.ProgressControl(15);
                         GameObject Instance_bullet = Instantiate(Bullet_portal, Fire_pos.position, Fire_pos.rotation);
 						GameObject Instance_effect = Instantiate(Fire_effect, Fire_pos.position, Fire_pos.rotation);
-
 						Destroy(Instance_effect, 0.05f);
 					}
 					if(skill_num == 4)
 					{
+						PlaySound("ATTACK");
                         Pb.ProgressControl(15);
                         GameObject Instance_bullet = Instantiate(Bullet_stop, Fire_pos.position, Fire_pos.rotation);
 						GameObject Instance_effect = Instantiate(Fire_effect, Fire_pos.position, Fire_pos.rotation);
@@ -340,6 +369,7 @@ namespace UnityChan
         {
             if(collision.gameObject.tag == "Trap" )
             {
+				PlaySound("DAMAGE");
 				Init_ColliderObject = collision.gameObject;
                 Debug.Log("Damage");
                 anim.Play("Damage");
@@ -357,6 +387,7 @@ namespace UnityChan
             }
             if(collision.gameObject.tag == "Bullet")
             {
+				PlaySound("DAMAGE");
 				Init_ColliderObject = collision.gameObject;
                 Debug.Log("Damage");
                 anim.Play("Damage");
@@ -370,10 +401,12 @@ namespace UnityChan
             }
             if(collision.gameObject.tag == "Enemy")
             {
+				PlaySound("DAMAGE");
 				Pb.ProgressControl(20);
             }
             if (collision.gameObject.tag == "Ice")
             {
+				PlaySound("WIN");
                 SceneManager.LoadScene("game_clear");
             }
             if (collision.gameObject.tag == "Heal")

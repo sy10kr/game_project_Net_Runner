@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    //사운드
+    AudioSource audioSource;
+	public AudioClip audioAtk;
+    public AudioClip audioDamage;
+    [SerializeField] GameObject Sound_Destroy = null;
+
     //포신만 움직이기 위한 Transform
     [SerializeField] Transform m_tfGunBody = null;
     //범위
@@ -51,16 +57,34 @@ public class Turret : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         m_currentFireRate = m_fireRate;
         //0.5초마다 반복 실행
         InvokeRepeating("SearchEnemy",0f,0.5f);        
     }
 
+	void PlaySound(string action)
+	{
+		 switch (action) 
+		 {
+			case "ATTACK":
+				audioSource.clip = audioAtk;
+				break;
+			case "DAMAGE":
+				audioSource.clip = audioDamage;
+				break;
+       	}
+       	audioSource.Play();
+	}
+        
     // Update is called once per frame
     void OnDestroy()
-    {
+    {   
         GameObject Instance_effect = Instantiate(Destroy_effect, transform.position, Quaternion.identity);
+        GameObject Instance_effect2 = Instantiate(Sound_Destroy, transform.position, Quaternion.identity);
         Destroy(Instance_effect, 1.0f);
+        Destroy(Instance_effect2, 1.0f);
     }
 
     void Update()
@@ -86,7 +110,7 @@ public class Turret : MonoBehaviour
                 if(m_currentFireRate <= 0)
                 {
                     m_currentFireRate = m_fireRate;
-
+                    PlaySound("ATTACK");
                     GameObject Instance_effect = Instantiate(fire_effect, m_firepos.position, Quaternion.identity);
                     GameObject Instance_bullet = Instantiate(Bullet, m_firepos.position, m_firepos.rotation);
                    
@@ -108,6 +132,11 @@ public class Turret : MonoBehaviour
             Invoke("Init_trap", 5f);
         }
         if(other.gameObject.tag == "Zombie")
+        {
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+        }
+        if(other.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
             Destroy(other.gameObject);

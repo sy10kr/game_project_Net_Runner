@@ -8,6 +8,14 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     NavMeshAgent m_enemy = null;
 
+    //사운드
+    AudioSource audioSource;
+	public AudioClip audio_1;
+    public AudioClip audio_2;
+    public AudioClip audio_3;
+    public int Sound_i;
+    [SerializeField] GameObject Sound_Destroy = null;
+
     //웨이 포인트 및 컨트롤 선언
     [SerializeField] Transform[] m_tfWayPoints = null;
     [SerializeField] CameraControl camera = null;
@@ -22,6 +30,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] GameObject enemyDestroy_effect = null;
     public void SetTarget(Transform p_target)
     {
+        PlaySound();
         CancelInvoke();
         m_target = p_target;
     }
@@ -41,6 +50,7 @@ public class EnemyAI : MonoBehaviour
             if (m_enemy.velocity == Vector3.zero)
             {
                 //다음 목적지로(다돌면 다시 처음지역으로)
+                PlaySound();
                 m_enemy.SetDestination(m_tfWayPoints[m_count++].position);
 
                 if (m_count >= m_tfWayPoints.Length)
@@ -102,7 +112,9 @@ public class EnemyAI : MonoBehaviour
     void OnDestroy()
     {
         GameObject Instance_effect = Instantiate(enemyDestroy_effect, transform.position, Quaternion.identity);
+        GameObject Instance_effect2 = Instantiate(Sound_Destroy, transform.position, Quaternion.identity);
         Destroy(Instance_effect, 1.0f);
+        Destroy(Instance_effect2, 1.0f);
         camera.control = 0;
         drone_control = 0;
         camera.SetMain();
@@ -155,11 +167,31 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         m_enemy = GetComponent<NavMeshAgent>();
         //시작되면 2초마다 움직이게 조정
         InvokeRepeating("MoveToNextWayPoint", 0f, 2f);
         
     }
+
+    void PlaySound()
+	{
+         Sound_i = Random.Range(1,4);
+		 switch (Sound_i) 
+		 {
+			case 1:
+				audioSource.clip = audio_1;
+				break;
+			case 2:
+				audioSource.clip = audio_2;
+				break;
+            case 3:
+                audioSource.clip = audio_3;
+				break;
+
+       	}
+       	audioSource.Play();
+	}
 
     // Update is called once per frame
     void Update()

@@ -108,3 +108,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mine_effect: {fileID: 100010, guid: e0609132424a24844b1d53ad3d704fd9, type: 3}
+  Sound_effect: {fileID: 4891221239925203317, guid: 0448e05526754364ba87b5a3a7c5ba7e,
+    type: 3}
