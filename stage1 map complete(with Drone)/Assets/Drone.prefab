@@ -133,12 +133,8 @@ MonoBehaviour:
   Sound_i: 0
   Sound_Destroy: {fileID: 4891221239925203317, guid: 0448e05526754364ba87b5a3a7c5ba7e,
     type: 3}
-  m_tfWayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  camera: {fileID: 0}
+  m_tfWayPoints: []
+  camera: {fileID: 3147728516776494190, guid: 090acc941418d8945a35dd019be36f94, type: 3}
   enemyDestroy_effect: {fileID: 100008, guid: 1dbc518224e49f34095aab42fe05751a, type: 3}
 --- !u!195 &5115999552636293841
 NavMeshAgent:
@@ -175,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_angle: 90
-  m_distance: 5
+  m_distance: 7
   m_layerMask:
     serializedVersion: 2
     m_Bits: 512
